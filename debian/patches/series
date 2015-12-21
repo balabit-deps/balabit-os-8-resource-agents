@@ -7,3 +7,4 @@ gitignore.patch
 reproducible.patch
 var-run.patch
 crm-mon-format.patch
+SSBM-332-heartbeat.patch
