@@ -1,0 +1,45 @@
+From 2a56d5b27dc54f498231fb2bfd4d67c1883b9dea Mon Sep 17 00:00:00 2001
+From: yuskiida <yusk.iida@gmail.com>
+Date: Thu, 16 Apr 2020 22:40:41 +0900
+Subject: [PATCH] pgsql: support to crm_mon output for Pacemaker-2.0.3.
+
+Description: The output of crm_mon -n1 changed to prefix node
+ information with an asterisk, resulting in the node_exist() function
+ failing to show correct information for nodes.  This updates the code
+ to accept the new node line format.
+Origin: upstream, https://github.com/ClusterLabs/resource-agents/commit/2a56d5b2
+Bug-Ubuntu: https://bugs.launchpad.net/ubuntu/+source/resource-agents/+bug/1900016
+Reviewed-By: Bryce Harrington <bryce@canonical.com>
+Applied-Upstream: 4.6.0, https://github.com/ClusterLabs/resource-agents/compare/v4.5.0...v4.6.0rc1
+
+---
+ heartbeat/pgsql | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/heartbeat/pgsql b/heartbeat/pgsql
+index c98db3aab..8d67b3ca7 100755
+--- a/heartbeat/pgsql
++++ b/heartbeat/pgsql
+@@ -1040,7 +1040,7 @@ pgsql_replication_monitor() {
+ 
+     # I can't get master node name from $OCF_RESKEY_CRM_meta_notify_master_uname on monitor,
+     # so I will get master node name using crm_mon -n
+-    print_crm_mon | tr -d "\t" | tr -d " " | grep -q "^${RESOURCE_NAME}[(:].*[):].*Master"
++    print_crm_mon | tr -d "\t" | tr -d " " | grep -q -e "^${RESOURCE_NAME}[(:].*[):].*Master" -e "^\*${RESOURCE_NAME}[(:].*[):].*Master"
+     if [ $? -ne 0 ] ; then
+         # If I am Slave and Master is not exist
+         ocf_log info "Master does not exist."
+@@ -1815,11 +1815,11 @@ exec_with_retry() {
+ }
+ 
+ is_node_online() {
+-    print_crm_mon | tr '[A-Z]' '[a-z]' | grep -e "^node $1 " -e "^node $1:" | grep -q -v "offline"
++    print_crm_mon | tr '[A-Z]' '[a-z]' | grep -e "^node $1 " -e "^node $1:" -e "\* node $1:" | grep -q -v "offline"
+ }
+ 
+ node_exist() {
+-    print_crm_mon | tr '[A-Z]' '[a-z]' | grep -q "^node $1"
++    print_crm_mon | tr '[A-Z]' '[a-z]' | grep -q -e "^node $1" -e "\* node $1:"
+ }
+ 
+ check_binary2() {
