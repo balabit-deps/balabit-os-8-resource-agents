@@ -1,3 +1,9 @@
+resource-agents (1:4.5.0-2ubuntu2.1bb1) focal; urgency=medium
+
+  * Balabit patched version
+
+ -- Balabit Platform Team <devnull@dev.null>  Sat, 19 Dec 2020 13:01:24 +0100
+
 resource-agents (1:4.5.0-2ubuntu2.1) focal; urgency=medium
 
   * d/p/crm-mon-format.patch: Support newer crm_mon output formats.
