@@ -1,3 +1,11 @@
+resource-agents (1:4.5.0-2ubuntu2.2) focal; urgency=medium
+
+  * Microsoft Azure HA Enablement: azure-lb (LP: #1895343).
+    d/p/lp1895343-01-azure-lb-Dont-redirect-nc-listener-output-to-pidfile.patch
+    was introduced to backport upstream patch.
+
+ -- Rafael David Tinoco <rafaeldtinoco@ubuntu.com>  Mon, 26 Oct 2020 04:00:13 +0000
+
 resource-agents (1:4.5.0-2ubuntu2.1bb1) focal; urgency=medium
 
   * Balabit patched version

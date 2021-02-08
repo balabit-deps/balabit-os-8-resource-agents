@@ -8,3 +8,4 @@ reproducible.patch
 var-run.patch
 crm-mon-format.patch
 SSBM-332-heartbeat.patch
+lp1895343-01-azure-lb-Dont-redirect-nc-listener-output-to-pidfile.patch
